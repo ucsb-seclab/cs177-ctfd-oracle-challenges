@@ -296,7 +296,7 @@ def load(app):
                     "force_new": force_new},
             )
         except requests.exceptions.ConnectionError:
-            return "ERROR: Could not connect to hallenge oracle. Talk to an admin."
+            return "ERROR: Could not connect to challenge oracle. Talk to an admin."
 
         if r.status_code != 200:
             return "ERROR: Error in challenge oracle. Talk to an admin."
