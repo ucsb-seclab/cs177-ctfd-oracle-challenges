@@ -82,6 +82,7 @@ class OracleChallenge(BaseChallenge):
         :param challenge:
         :return: Challenge object, data dictionary to be returned to the user
         """
+        
         data = {
             "id": challenge.id,
             "name": challenge.name,
