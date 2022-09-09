@@ -135,8 +135,8 @@ class OracleChallenge(BaseChallenge):
         ChallengeFiles.query.filter_by(challenge_id=challenge.id).delete()
         Tags.query.filter_by(challenge_id=challenge.id).delete()
         Hints.query.filter_by(challenge_id=challenge.id).delete()
-        Challenges.query.filter_by(id=challenge.id).delete()
         OracleChallenges.query.filter_by(id=challenge.id).delete()
+        Challenges.query.filter_by(id=challenge.id).delete()
         db.session.commit()
 
     @staticmethod
