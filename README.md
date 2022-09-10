@@ -1,54 +1,22 @@
-# Dynamic Value Challenges for CTFd
+# CTFd Oracle Challenges
 
-It's becoming commonplace in CTF to see challenges whose point values decrease
-after each solve.
+Custom oracle plugin, originally by @nbanmp, customization by @Lukas-Dresel.
 
-This CTFd plugin creates a dynamic challenge type which implements this
-behavior. Each dynamic challenge starts with an initial point value and then
-each solve will decrease the value of the challenge until a minimum point value.
-
-By reducing the value of the challenge on each solve, all users who have previously
-solved the challenge will have lowered scores. Thus an easier and more solved
-challenge will naturally have a lower point value than a harder and less solved
-challenge.
-
-Within CTFd you are free to mix and match regular and dynamic challenges.
-
-The current implementation requires the challenge to keep track of three values:
-
-- Initial - The original point valuation
-- Decay - The amount of solves before the challenge will be at the minimum
-- Minimum - The lowest possible point valuation
-
-The value decay logic is implemented with the following math:
-
-<!--
-$$a=\textrm{max points}$$
-$$b=\textrm{min points}$$
-$$s=\textrm{solve threshold}$$
-
-$$f(x)=\frac{b-a}{s^{2}}x^{2}+a$$
--->
-
-![](https://raw.githubusercontent.com/CTFd/DynamicValueChallenge/master/function.png)
-
-or in pseudo code:
-
-```
-value = (((minimum - initial)/(decay**2)) * (solve_count**2)) + initial
-value = math.ceil(value)
-```
-
-If the number generated is lower than the minimum, the minimum is chosen
-instead.
-
-A parabolic function is chosen instead of an exponential or logarithmic decay function
-so that higher valued challenges have a slower drop from their initial value.
+When creating a challenge, an endpoint for an "oracle" is specified. This oracle handles challenge deployment and testing. It must respond to a post request to `/create` and `/attempt`.
 
 # Installation
+Clone into CTFd plugins directory.
 
-**REQUIRES: CTFd >= v1.2.0**
+# Oracle API
 
-1. Clone this repository to `CTFd/plugins`. It is important that the folder is
-   named `DynamicValueChallenge` so CTFd can serve the files in the `assets`
-   directory.
+## POST - `/create`
+JSON will be provided with the integer `team_id` and boolean `force_new`.
+
+The endpoint must ensure a challenge instance for the specified team exists, and return a string with details containing any information needed to interact with the deployed instance.
+
+If `force_new` is true, the endpoint must create a new instance and may delete the old instance. If `force_new` is false, the endpoint should create a new instance only if no instance has been created, and should otherwise return the already existing instance.
+
+## POST - `/attempt`
+JSON will be provided with the integer `team_id`.
+
+The endpoint must validate whether or not the team's challenge instance has reached a solved state. If the instance has been solved, a 200 code should be returned, if the instance has not been solved, a non-200 code should be returned.
