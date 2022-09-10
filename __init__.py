@@ -154,7 +154,8 @@ class OracleChallenge(BaseChallenge):
         # submission = data["submission"].strip()
         # instance_id = submission
         submission = data["submission"].strip()
-        team_id = get_current_user().account_id
+        user = get_current_user()
+        team_id = user.account_id
         team_name = get_current_account_name()
         challenge_secret = challenge.challenge_secret
 
@@ -174,6 +175,7 @@ class OracleChallenge(BaseChallenge):
             return False, "An error occurred when attempting to submit your flag. Talk to an admin."
 
         resp = r.json()
+        
         if resp['correct']:
             return True, resp['message']
         else:
@@ -206,7 +208,6 @@ class OracleChallenge(BaseChallenge):
         )
         db.session.add(solve)
         db.session.commit()
-        db.session.close()
 
     @staticmethod
     def fail(user, team, challenge, request):
@@ -229,8 +230,6 @@ class OracleChallenge(BaseChallenge):
         )
         db.session.add(wrong)
         db.session.commit()
-        db.session.close()
-
 
 def get_chal_class(class_id):
     """
