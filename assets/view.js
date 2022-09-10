@@ -61,7 +61,6 @@ CTFd._internal.challenge.submit = function(preview) {
 
 
 newChallenge = function() {
-  console.log("CUAON")
   var challenge_id = parseInt(CTFd.lib.$('#challenge-id').val());
   var url = "/plugins/oracle_challenges/" + challenge_id;
 
