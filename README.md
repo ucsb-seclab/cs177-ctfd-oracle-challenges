@@ -1,6 +1,6 @@
 # CTFd Oracle Challenges
 
-Custom oracle plugin, originally by @nbanmp, customization by @Lukas-Dresel, porting to CTFd (4793d95338935686ef005c24ebb6606e1be7403b) by @degrigis.
+Custom oracle plugin, originally by @nbanmp, customization by @Lukas-Dresel, porting to CTFd (commit `4793d95338935686ef005c24ebb6606e1be7403b`) by @degrigis.
 
 When creating a challenge, an endpoint for an "oracle" is specified. This oracle handles challenge deployment and testing. It must respond to a post request to `/create` and `/attempt`.
 
